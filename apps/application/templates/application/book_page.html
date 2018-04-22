@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Book Reviews</title>
+		{% load static %}
+        <!-- The line above tells Django to be ready to listen for static files -->
+        <link rel="stylesheet" href="{% static 'application/css/style.css' %}">   
+        
+	</head>
+	<body>
+		<div id="wrapper">
+
+            <div class="header">
+                <a href="/books">Home</a>
+                <form action="/logout">
+                    {%csrf_token%}
+                    <input type="submit" name="logout" id = "logout" value="Log out">
+                  </form>
+            </div>
+
+            <h1>{{book.title}}</h1>
+            <h3>{{book.author.name}}</h3>
+
+            <div class="left_panel">
+                <h2>Reviews:</h2>
+                {%for i in reviews %}
+                    <div class="review">
+                        Rating: 
+                        {% if i.rating == 1 %}
+                            <img src="{% static 'application/images/OneStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 2 %}
+                            <img src="{% static 'application/images/TwoStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 3 %}
+                            <img src="{% static 'application/images/ThreeStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 4 %}
+                            <img src="{% static 'application/images/FourStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 5 %}
+                            <img src="{% static 'application/images/FiveStar.jpg' %}">
+                        {% endif %}
+                        <br/>
+                        <a href="/users/{{i.reviewer_id}}">{{i.reviewer.alias}}</a> says: {{i.content}} <br>
+                        Posted on {{i.created_at}}
+                        <br><br>
+                    </div>
+                {% endfor %}
+                        
+            </div>
+
+            <div class="right_panel">
+                <form action = "/books/post_review" method="post">
+                    {% csrf_token %}
+                    Add a review: <br/>
+                    <textarea name="content" id="" cols="60" rows="20"></textarea>
+                    <br/>
+                    Rating: 
+                    <select name = "rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <input type="hidden" value="{{book.id}}" name="book_id">
+                    <button class = "btn2">Submit Form</button>
+                </form>
+                
+
+
+            </div>
+
+          
+
+        </div><!--end of wrapper-->
+	</body>
+</html>

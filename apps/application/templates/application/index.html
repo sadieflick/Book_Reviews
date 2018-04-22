@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="utf-8">
+		<title>Log in and Registration</title>
+		{% load static %}
+      <!-- The line above tells Django to be ready to listen for static files -->
+      <link rel="stylesheet" href="{% static 'application/css/style.css' %}">
+      
+        
+	</head>
+	<body>
+		<div id="wrapper">
+            <div id="flash">
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li style="color: red;">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div id="registration">
+            <h1>Register here!</h1>
+                
+            
+
+                <form action= "/submit" method = "post">
+                    {% csrf_token %}
+                    Name: <input type="text" class = "entry" name="name" size = "50" value={{request.session.name}}>
+                    Alias: <input type="text" class = "entry" name="alias" size = "50" value={{resuest.session.alias}}>
+                    Email: <input type="text" class="entry" name="email" size = "50" value={{request.session.email}}>
+                    Password: <input type="password" class="entry" name="password" size = "50">
+                    Password: <input type="password" class="entry" name="password2" size = "50">
+                    <input type="submit" id="btn1" value = "Register"/>
+                </form>
+            </div>
+            
+            <div id="login">
+                <h1> Log in</h1>
+                <form action = "/login" method = "post" id="login">
+                    {% csrf_token %}
+                    Email: <input type="text" class="entry" name="email" size = "50"/>
+                    Password: <input type="password" class="entry" name = "password" size="50"/>
+                    <input type="submit" id="btn1" value = "Log in"/>
+                </form>
+            </div>
+
+        </div><!--end of wrapper-->
+	</body>
+</html>

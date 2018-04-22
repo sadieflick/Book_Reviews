@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="utf-8">
+		<title>Log in and Registration</title>
+		{% load static %}
+      <!-- The line above tells Django to be ready to listen for static files -->
+      <link rel="stylesheet" href="{% static 'application/css/style.css' %}">
+      
+        
+	</head>
+	<body>
+		<div id="wrapper">
+            
+            <div id="add_form">
+                <h1>Add a New Book Title and a Review</h1>
+
+                <div id="flash">
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li style="color: red;">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <form action= "/books/post_review_new" method = "post">
+                    {% csrf_token %}
+                    <h3>Book Title:</h3><input type="text" class = "title_entry" name="title" size = "50" >
+                    <h3>Author</h3>
+                    <br>
+                    <p>Choose from the list</p>
+                    <select name="author">
+                        <option></option>
+                        {% for i in authors %}
+                            <option value="{{i.name}}" name="author"> {{i.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <p>Or add a new author: </p>
+                    <input type="text" class="entry" name="author_new" size = "50" value={{request.session.email}}>
+                    <h3>Review:</h3>
+                    <textarea name="review" rows="10" cols="30"></textarea>
+
+                    <select name="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+
+                    <input type="submit" id="btn2" value = "Add Book and Review"/>
+                </form>
+            </div><!--end add form-->
+
+        </div><!--end of wrapper-->
+	</body>
+</html>

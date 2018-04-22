@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Log in and Registration</title>
+		{% load static %}
+        <!-- The line above tells Django to be ready to listen for static files -->
+        <link rel="stylesheet" href="{% static 'application/css/style.css' %}">   
+        
+	</head>
+	<body>
+		<div id="wrapper">
+
+            <div class="header">
+                <h1>Welcome, {{alias}}!</h1>
+                <a href="/books/add_page">Add book and review</a>
+                <form action="/logout">
+                    {%csrf_token%}
+                    <input type="submit" name="logout" id = "logout" value="Log out">
+                  </form>
+            </div>
+
+            <div class="left_panel">
+                <h1>Recent book reviews:</h1>
+                {%for i in reviews %}
+
+                    <br/><a href= "books/{{i.book_reviewed_id}}">{{i.book_reviewed.title}}</a> <br/>
+                        Rating: 
+                        {% if i.rating == 1 %}
+                            <img src="{% static 'application/images/OneStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 2 %}
+                            <img src="{% static 'application/images/TwoStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 3 %}
+                            <img src="{% static 'application/images/ThreeStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 4 %}
+                            <img src="{% static 'application/images/FourStar.jpg' %}">
+                        {% endif %}
+                        {% if i.rating == 5 %}
+                            <img src="{% static 'application/images/FiveStar.jpg' %}">
+                        {% endif %}
+                        <br/>
+                        <a href="/users/{{i.reviewer_id}}">{{i.reviewer.alias}}</a> says: {{i.content}} <br>
+                        Posted on {{i.created_at}}
+                        <br>
+                {% endfor %}
+                        
+            </div>
+
+            <div class="right_panel">
+                <h1>Other books with reviews:</h1>
+                <div class="scroll_box">
+                    {% for i in books %}
+                        <a href="/books/{{i.id}}">{{i.title}}</a><br/>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+
+          
+
+        </div><!--end of wrapper-->
+	</body>
+</html>
